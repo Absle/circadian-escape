@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float maxInteractDist;
+    private float maxInteractDist = 2.0f;
 
-    private bool canInteract;
+    public bool canInteract = false;
+
+    private Text actionPrompt;
     private Transform camTransform;
 
     private void Start()
     {
-        maxInteractDist = 2.0f;
+        actionPrompt = GameObject.FindObjectOfType<Canvas>().GetComponentInChildren<Text>();
 
-        canInteract = false;
         camTransform = Camera.main.transform;
 	}
 	
@@ -34,12 +36,19 @@ public class PlayerController : MonoBehaviour
 
     private RaycastHit CheckForInteractables()
     {
-        canInteract = false;
         RaycastHit hit;
         if(Physics.Raycast(camTransform.position, camTransform.forward, out hit, maxInteractDist) && hit.collider.CompareTag("Interactable"))
         {
             canInteract = true;
-            hit.transform.gameObject.SendMessage("DisplayInteractMessage", SendMessageOptions.RequireReceiver);
+            actionPrompt.text = hit.collider.gameObject.GetComponent<Text>().text;
+            actionPrompt.enabled = true;
+            //hit.transform.gameObject.SendMessage("DisplayInteractMessage", SendMessageOptions.RequireReceiver);
+        }
+
+        else
+        {
+            canInteract = false;
+            actionPrompt.enabled = false;
         }
 
         return hit;
