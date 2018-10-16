@@ -276,7 +276,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openMessage: Press 'E' to Open
   closeMessage: Press 'E' to Close
-  isOpen: 0
-  canInteract: 1
   interactTime: 0
-  interactMessage: 
