@@ -10,16 +10,15 @@ public class DoorController : MonoBehaviour
     [SerializeField]
     private string closeMessage = "Press 'E' to Close";
 
-    private bool isOpen = false;
+    //interaction fields
     private bool canInteract = true;
-
-    private int animParamOpenId;
-    public float interactTime = 0.0f;
-
+    private float interactTime = 0.0f;
     private Text actionPrompt;
+    
+    //animation fields
+    private bool isOpen = false;
+    private int animParamOpenId;
     private Animator anim;
-
-    //public Text ActionPrompt { get; private set; }
 
     private void Start()
     {
