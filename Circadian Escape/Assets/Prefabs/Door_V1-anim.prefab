@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4546697730940662}
   - component: {fileID: 95811217644050658}
   m_Layer: 0
-  m_Name: AnimDoor_V1
+  m_Name: Door_V1-anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1119892339220620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.122473, y: 4.2569033e-16, z: -19.17139}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224282592364074952}
