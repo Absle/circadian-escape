@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using StdT12;
+using StdT12.Interfaces;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,10 +24,10 @@ public class PlayerController : MonoBehaviour
 	
 	private void Update()
     {
-        RaycastHit hit = CheckForInteractables();
+        IInteractable interactable = CheckForInteractables();
         if(canInteract && Input.GetKeyDown(KeyCode.E))
         {
-            hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.RequireReceiver);
+            interactable.Interact();
         }
 	}
 
@@ -34,15 +36,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private RaycastHit CheckForInteractables()
+    private IInteractable CheckForInteractables()
     {
+        IInteractable interactable = null;
         RaycastHit hit;
         if(Physics.Raycast(camTransform.position, camTransform.forward, out hit, maxInteractDist) && hit.collider.CompareTag("Interactable"))
         {
             canInteract = true;
-            actionPrompt.text = hit.collider.gameObject.GetComponent<Text>().text;
+            interactable = hit.collider.gameObject.GetComponent(typeof(IInteractable)) as IInteractable;
+            actionPrompt.text = interactable.InteractMessage;
             actionPrompt.enabled = true;
-            //hit.transform.gameObject.SendMessage("DisplayInteractMessage", SendMessageOptions.RequireReceiver);
         }
 
         else
@@ -51,6 +54,6 @@ public class PlayerController : MonoBehaviour
             actionPrompt.enabled = false;
         }
 
-        return hit;
+        return interactable;
     }
 }

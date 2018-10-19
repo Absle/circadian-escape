@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using StdT12;
 
-public class DoorController : MonoBehaviour
+public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 {
     [SerializeField]
     private string openMessage = "Press 'E' to Open";
@@ -13,6 +14,9 @@ public class DoorController : MonoBehaviour
     //interaction fields
     private bool canInteract = true;
     private float interactTime = 0.0f;
+
+    private string interactMessage = "";
+    public string InteractMessage { get { return interactMessage; } }
     private Text actionPrompt;
     
     //animation fields
@@ -42,12 +46,12 @@ public class DoorController : MonoBehaviour
     {
         if(isOpen)
         {
-            actionPrompt.text = closeMessage;
+            interactMessage = closeMessage;
         }
 
         else
         {
-            actionPrompt.text = openMessage;
+            interactMessage = openMessage;
         }
     }
 
