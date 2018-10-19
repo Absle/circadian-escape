@@ -22649,7 +22649,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4295497807886898}
   m_Layer: 0
-  m_Name: Asylum
+  m_Name: AnimAsylum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
