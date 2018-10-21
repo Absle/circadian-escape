@@ -65,7 +65,7 @@ public class FlashLightBattery : MonoBehaviour
                     //currentEnergy = maxEnergy;
                     lightObject.SetActive(true);
                     //   currentEnergy -= 10.0f * Time.deltaTime;
-                    usedEnergy += 5.0f * Time.deltaTime;
+                    usedEnergy += .05f * Time.deltaTime;
                     /// realCurrent = currentEnergy;
                     //  print("Current Energy " + currentEnergy);
 
