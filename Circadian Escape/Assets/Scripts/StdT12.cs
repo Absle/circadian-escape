@@ -17,5 +17,11 @@ namespace StdT12
             string PickUpMessage { get; }
             void PickUp();
         }
+
+		interface IHide
+		{
+			string HideMessage { get; }
+			void Hide();
+		}
     }
 }
