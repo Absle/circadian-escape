@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StdT12;
+using StdT12.Enums;
 
 public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IPickUpable
 {
@@ -20,7 +21,6 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IPickUpa
 
     private string pickupMessage = "";
     public string PickUpMessage { get { return pickupMessage; } }
-    private Text actionPrompt;
 
     //animation fields
     private bool isPickedUp = false;
@@ -30,12 +30,12 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IPickUpa
     //private int batteries;
     public GameObject batteryPickedUp;
 
+    private PickUpType type = PickUpType.Battery;
+    public PickUpType Type { get { return type; } }
 
     public void Start()
     {
-        actionPrompt = gameObject.GetComponent<Text>();
         UpdatePickUpMessage();
-
     }
 
     private void Update()
@@ -69,8 +69,8 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IPickUpa
     }
 
     // probably want to have a return type here
-    public void PickUp()
-    {
+    /*public void PickUp()
+    {   
         //only allow interaction when not animating
         if (canInteract)
         {
@@ -92,5 +92,5 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IPickUpa
 
             UpdatePickUpMessage();
         }
-    }
+    }*/
 }
