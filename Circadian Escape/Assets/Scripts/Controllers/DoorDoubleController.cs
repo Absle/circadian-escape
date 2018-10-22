@@ -17,7 +17,7 @@ public class DoorDoubleController : MonoBehaviour, StdT12.Interfaces.IInteractab
 
     private string interactMessage = "";
     public string InteractMessage { get { return interactMessage; } }
-    private Text actionPrompt;
+  //  private Text actionPrompt;
 
     //animation fields
     private bool isOpen = false;
@@ -28,7 +28,7 @@ public class DoorDoubleController : MonoBehaviour, StdT12.Interfaces.IInteractab
     {
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
-        actionPrompt = gameObject.GetComponent<Text>();
+       // actionPrompt = gameObject.GetComponent<Text>();
         UpdateInteractMessage();
     }
 
