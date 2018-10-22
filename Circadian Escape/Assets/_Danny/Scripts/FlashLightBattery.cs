@@ -23,6 +23,7 @@ public class FlashLightBattery : MonoBehaviour
 
     public void Start()
     {
+        batteries = 1;
         currentEnergy = maxEnergy;
         maxEnergy = 50 * batteries;
     }

@@ -13,12 +13,20 @@ public class PlayerController : MonoBehaviour
 
     public bool canInteract = false;
 
+    private Canvas canvas;
     private Text actionPrompt;
+    private int numBatteries = 0;
+    private Text batteryCounter;
     private Transform camTransform;
+
+    //?
+    bool WINNING = false;
 
     private void Start()
     {
-        actionPrompt = GameObject.FindObjectOfType<Canvas>().GetComponentInChildren<Text>();
+        canvas = GameObject.FindObjectOfType<Canvas>();
+        actionPrompt = GameObject.Find("ActionPrompt").GetComponent<Text>();
+        batteryCounter = GameObject.Find("BatteryCounter").GetComponent<Text>();
 
         camTransform = Camera.main.transform;
 	}
@@ -57,18 +65,33 @@ public class PlayerController : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.E))
                 {
                     PickUpType type = pickup.Type;
+                    WINNING = (hit.collider.gameObject.name == "TheBiggestPickle"); //?
                     Destroy(hit.collider.gameObject);
-
-                    //? TODO: add the item to the inventory, not just display it in the log
-                    Debug.Log("YOU PICKED UP: " + type.ToString()); //?
+                    if(type == PickUpType.Battery)
+                    {
+                        ++numBatteries;
+                    }
+                    /*//? TODO: add the item to the inventory, not just display it in the log
+                    Debug.Log("YOU PICKED UP: " + type.ToString()); //?*/
                 }
             }
+
+            //?
+           
 
             //if no interesting objects found, disable actionPrompt
             else
             {
                 actionPrompt.enabled = false;
             }
+
+            batteryCounter.text = "Batteries: " + numBatteries;
+        }
+        else if (WINNING)
+        {
+            actionPrompt.fontSize = 50;
+            actionPrompt.text = "YOU HAVE FIND THE BIGGEST PICKLE!\nDANNY'S QUEST IS COMPLETE!\nYOU WIN!!!";
+            actionPrompt.enabled = true;
         }
 
         else
