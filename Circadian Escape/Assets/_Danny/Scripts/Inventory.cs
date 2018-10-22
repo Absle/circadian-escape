@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StdT12.Enums;
 
 public class Inventory : MonoBehaviour
 {
@@ -39,21 +40,33 @@ public class Inventory : MonoBehaviour
 
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        //  if(other.gameObject.GetComponent<Item>())
-        if(other.tag == "Item")
-        {
-            print("Colliding");
-            itemPickedUp = other.gameObject;
-            AddItem(itemPickedUp);
-        }
-    }
+   // public void PickedUp ()
+   // {
+    //    AddItem(itemPickedUp);
+   // }
+
+    //  public void OnTriggerEnter(Collider other)
+    //  {
+    //  if(other.gameObject.GetComponent<Item>())
+    /*  if(other.tag == "Item")
+      {
+          print("Colliding");
+          itemPickedUp = other.gameObject;
+          AddItem(itemPickedUp);
+      }
+
+    */
+    // }
+
+    //itemPickedUp = other.gameObject;
+           
 
 
-    public void AddItem(GameObject item)
+    public void AddItem(PickUpType item)
     {
-        for(int i = 0; i < slots; i++)
+       // AddItem(itemPickedUp);
+
+        for (int i = 0; i < slots; i++)
         {
             if(slot[i].GetComponent<Slot>().empty)
             {

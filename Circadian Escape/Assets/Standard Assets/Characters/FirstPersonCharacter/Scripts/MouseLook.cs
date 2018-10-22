@@ -19,6 +19,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private Quaternion m_CharacterTargetRot;
         private Quaternion m_CameraTargetRot;
+        //This is actually true
         private bool m_cursorIsLocked = true;
 
         public void Init(Transform character, Transform camera)
@@ -76,7 +77,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             if(Input.GetKeyUp(KeyCode.Escape))
             {
+                //THIS IS ACTUALLY FALSE
                 m_cursorIsLocked = false;
+                // open the pause menu here
+
             }
             else if(Input.GetMouseButtonUp(0))
             {
