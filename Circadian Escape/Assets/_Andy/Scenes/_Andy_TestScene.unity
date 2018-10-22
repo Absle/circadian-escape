@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 8a7503df06445024e9ee394a2fc7fb84,
+  m_LightingDataAsset: {fileID: 112000002, guid: bd9ff0b5a36f46b489bdf6d57e1cc702,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -689,7 +689,6 @@ Canvas:
   m_GameObject: {fileID: 1358532697}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
