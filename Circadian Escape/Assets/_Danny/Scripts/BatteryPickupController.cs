@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StdT12;
+using StdT12.Enums;
 
-public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IInteractable
+public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IPickUpable
 {
     [SerializeField]
     private string openMessage = "Press 'E' to Pickup Battery";
@@ -18,24 +19,23 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IInterac
     private bool canInteract = true;
   //  private float interactTime = 0.0f;
 
-    private string interactMessage = "";
-    public string InteractMessage { get { return interactMessage; } }
-    private Text actionPrompt;
+    private string pickupMessage = "";
+    public string PickUpMessage { get { return pickupMessage; } }
 
     //animation fields
     private bool isPickedUp = false;
     //  private int animParamOpenId;
     //private Animator anim;
 
-    private int batteries;
+    //private int batteries;
     public GameObject batteryPickedUp;
 
+    private PickUpType type = PickUpType.Battery;
+    public PickUpType Type { get { return type; } }
 
     public void Start()
     {
-        actionPrompt = gameObject.GetComponent<Text>();
-        UpdateInteractMessage();
-
+        UpdatePickUpMessage();
     }
 
     private void Update()
@@ -52,24 +52,25 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IInterac
         
     }
 
-    private void UpdateInteractMessage()
+    private void UpdatePickUpMessage()
     {
         if (isPickedUp)
         {
             
-            interactMessage = closeMessage;
+            pickupMessage = closeMessage;
         }
 
         else
         {
-            interactMessage = openMessage;
+            pickupMessage = openMessage;
         }
 
        
     }
 
-    public void Interact()
-    {
+    // probably want to have a return type here
+    /*public void PickUp()
+    {   
         //only allow interaction when not animating
         if (canInteract)
         {
@@ -82,14 +83,14 @@ public class BatteryPickupController : MonoBehaviour, StdT12.Interfaces.IInterac
 
             if (isPickedUp)
             {
-                batteries += 1;
+           //     batteries += 1;
                 Destroy(batteryPickedUp);
             }
 
-            print("batteries: " + batteries);
+         //   print("batteries: " + batteries);
             canInteract = false;
 
-            UpdateInteractMessage();
+            UpdatePickUpMessage();
         }
-    }
+    }*/
 }

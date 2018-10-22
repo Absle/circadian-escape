@@ -17,20 +17,29 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private string interactMessage = "";
     public string InteractMessage { get { return interactMessage; } }
-    private Text actionPrompt;
     
     //animation fields
     private bool isOpen = false;
     private int animParamOpenId;
     private Animator anim;
 
+
+
+  //  public AudioClip MusicClip;
+
+    private AudioSource MusicSource;
+
+
+
     private void Start()
     {
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
-        actionPrompt = gameObject.GetComponent<Text>();
         UpdateInteractMessage();
-	}
+
+        MusicSource = gameObject.GetComponent<AudioSource>();
+      //  MusicSource.clip = MusicClip;
+    }
 	
 	private void Update()
     {
@@ -55,6 +64,8 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
         }
     }
 
+
+
     public void Interact()
     {
         //only allow interaction when not animating
@@ -63,6 +74,10 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
             //toggle door state
             isOpen = !isOpen;
             anim.SetBool(animParamOpenId, isOpen);
+
+
+
+            MusicSource.Play();
 
             //get game time when animation will be complete
             interactTime = Time.time + anim.GetAnimatorTransitionInfo(0).duration;

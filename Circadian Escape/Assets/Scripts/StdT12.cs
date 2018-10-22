@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace StdT12
 {
+    namespace Enums
+    {
+        public enum PickUpType
+        {
+            Battery
+        }
+    }
+
     namespace Interfaces
     {
         interface IInteractable
@@ -15,7 +23,7 @@ namespace StdT12
         interface IPickUpable
         {
             string PickUpMessage { get; }
-            void PickUp();
+            Enums.PickUpType Type { get; }
         }
 
 		interface IHide

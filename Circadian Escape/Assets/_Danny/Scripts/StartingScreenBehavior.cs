@@ -11,7 +11,7 @@ public class StartingScreenBehavior : MonoBehaviour {
     {
         if (Input.GetButtonDown("Submit"))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
 
             Debug.Log("BB FUCK ME");
         }
