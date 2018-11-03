@@ -16,17 +16,20 @@ public class DoorDoubleController : MonoBehaviour, StdT12.Interfaces.IInteractab
     private float interactTime = 0.0f;
 
     private string interactMessage = "";
-    public string InteractMessage { get { return interactMessage; } }
+    public string InteractMessage { get { return (canInteract ? interactMessage : ""); } }
 
     //animation fields
     private bool isOpen = false;
     private int animParamOpenId;
+    private const float DEFAULT_DOOR_ANIMATION_LENGTH = 3.0f;
     private Animator anim;
+    private AudioSource audSrc;
 
     private void Start()
     {
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
+        audSrc = gameObject.GetComponentInParent<AudioSource>();
         UpdateInteractMessage();
     }
 
@@ -34,6 +37,7 @@ public class DoorDoubleController : MonoBehaviour, StdT12.Interfaces.IInteractab
     {
         //reality check to keep animator and script in sync
         isOpen = anim.GetBool(animParamOpenId);
+        UpdateInteractMessage();
         
         //check if animation is done, reset interaction variables if it is
         if(!canInteract && Time.time >= interactTime)
@@ -61,15 +65,35 @@ public class DoorDoubleController : MonoBehaviour, StdT12.Interfaces.IInteractab
         //only allow interaction when not animating
         if(canInteract)
         {
-            //toggle door state
-            isOpen = !isOpen;
-            anim.SetBool(animParamOpenId, isOpen);
-
-            //get game time when animation will be complete
-            interactTime = Time.time + anim.GetAnimatorTransitionInfo(0).duration;
             canInteract = false;
 
+            //toggle door state and play animation
+            isOpen = !isOpen;
+            anim.SetBool(animParamOpenId, isOpen);
+            PlayAudio();
+
+            //get time until animation is complete
+            float current = Time.time;
+            float duration = DEFAULT_DOOR_ANIMATION_LENGTH; //dynamically determining animation length is stupid hard for some reason
+            interactTime = current + duration;
+
             UpdateInteractMessage();
+        }
+    }
+
+    //could be used to tie audio control into animation event later on
+    public void PlayAudio()
+    {
+        //play door opening sound
+        if(isOpen)
+        {
+            audSrc.Play();
+        }
+
+        //play door closing sound
+        else
+        {
+            audSrc.Play();
         }
     }
 }

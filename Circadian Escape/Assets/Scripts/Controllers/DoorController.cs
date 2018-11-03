@@ -14,31 +14,22 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
     //interaction fields
     private bool canInteract = true;
     private float interactTime = 0.0f;
-
     private string interactMessage = "";
-    public string InteractMessage { get { return interactMessage; } }
+    public string InteractMessage { get { return (canInteract ? interactMessage : ""); } }
     
     //animation fields
     private bool isOpen = false;
     private int animParamOpenId;
+    private const float DEFAULT_DOOR_ANIMATION_LENGTH = 3.0f;
     private Animator anim;
-
-
-
-  //  public AudioClip MusicClip;
-
-    private AudioSource MusicSource;
-
-
+    private AudioSource audSrc;
 
     private void Start()
     {
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
+        audSrc = gameObject.GetComponent<AudioSource>();
         UpdateInteractMessage();
-
-        MusicSource = gameObject.GetComponent<AudioSource>();
-      //  MusicSource.clip = MusicClip;
     }
 	
 	private void Update()
@@ -64,26 +55,40 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
         }
     }
 
-
-
     public void Interact()
     {
         //only allow interaction when not animating
         if(canInteract)
         {
-            //toggle door state
+            canInteract = false;
+
+            //toggle door state and play animation
             isOpen = !isOpen;
             anim.SetBool(animParamOpenId, isOpen);
+            PlayAudio();
 
-
-
-            MusicSource.Play();
-
-            //get game time when animation will be complete
-            interactTime = Time.time + anim.GetAnimatorTransitionInfo(0).duration;
-            canInteract = false;
+            //get time until animation is complete
+            float current = Time.time;
+            float duration = DEFAULT_DOOR_ANIMATION_LENGTH; //dynamically determining animation length is stupid hard for some reason
+            interactTime = current + duration;
 
             UpdateInteractMessage();
         }
-    }    
+    }
+
+    //could be used to tie audio control into animation event later on
+    public void PlayAudio()
+    {
+        //play door opening sound
+        if(isOpen)
+        {
+            audSrc.Play();
+        }
+
+        //play door closing sound
+        else
+        {
+            audSrc.Play();
+        }
+    }
 }
