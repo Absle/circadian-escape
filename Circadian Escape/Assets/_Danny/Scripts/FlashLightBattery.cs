@@ -28,7 +28,7 @@ public class FlashLightBattery : MonoBehaviour
         maxEnergy = 50 * batteries;
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
         // 1 battery = 50 energy 
         maxEnergy = 50 * batteries;

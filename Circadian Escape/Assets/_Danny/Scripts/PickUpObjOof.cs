@@ -13,10 +13,15 @@ public class PickUpObjOof : MonoBehaviour
     public float distance;
     public float smooth;
 
-    
+    public float speed = 10.0f;
+    public float rotationSpeed = 100.0f;
 
-	// Use this for initialization
-	void Start ()
+    bool isRotation;
+
+
+
+    // Use this for initialization
+    void Start ()
     {
         mainCamera = GameObject.FindWithTag("MainCamera");
 	}
@@ -51,29 +56,52 @@ public class PickUpObjOof : MonoBehaviour
 
     void pickUp()
     {
-        if(pressed)
+
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            int x = Screen.width/2;
-            int y = Screen.height/2;
+            isRotation = !isRotation;
+
+        }
+
+        if (pressed)
+        {
+            int x = Screen.width / 2;
+            int y = Screen.height / 2;
+
+             float v = Input.GetAxis("Mouse X") * speed;
+            float h = Input.GetAxis("Mouse Y") * rotationSpeed;
+
 
             Ray ray = mainCamera.GetComponent<Camera>().ScreenPointToRay(new Vector3(x, y));
 
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit))
+            // if(Physics.Raycast(ray, out hit))
+            //  {
+            Physics.Raycast(ray, out hit);
+            PickupAttempt p = hit.collider.GetComponent<PickupAttempt>();
+            if (p != null)
             {
-                PickupAttempt p = hit.collider.GetComponent<PickupAttempt>();
-                if(p!= null)
+                carrying = true;
+                carriedObject = p.gameObject;
+                p.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                
+                if(isRotation)
                 {
-                    carrying = true;
-                    carriedObject = p.gameObject;
-                    p.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                   // p.gameObject.rigidbody.isKinematic = true;
+                   // p.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                   // p.gameObject.GetComponent<Rigidbody>().useGravity = true;
+                     p.gameObject.transform.RotateAroundLocal(mainCamera.transform.up, -Mathf.Deg2Rad * v);
+                     p.gameObject.transform.RotateAroundLocal(mainCamera.transform.right, Mathf.Deg2Rad * h);
+                    p.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 80);
                 }
+
+                // p.gameObject.rigidbody.isKinematic = true;
+                //     }
+                // }
+
             }
 
         }
-
     }
 
     void checkDrop()
