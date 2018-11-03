@@ -97,10 +97,10 @@ public class FlashLightBattery : MonoBehaviour
 
         healthBar.UpdateBar(currentEnergy, maxEnergy);
 
-        print("Energy MAXIMUM  " + maxEnergy);
+        /*print("Energy MAXIMUM  " + maxEnergy);
         print("BATTERIES: " + batteries);
         print("Energy Consumed  " + usedEnergy);
-        print("Current Energy " + currentEnergy);
+        print("Current Energy " + currentEnergy);*/
 
     }
 
