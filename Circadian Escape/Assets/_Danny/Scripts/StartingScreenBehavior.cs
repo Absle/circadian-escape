@@ -13,7 +13,7 @@ public class StartingScreenBehavior : MonoBehaviour {
         {
             SceneManager.LoadScene(1);
 
-            Debug.Log("BB FUCK ME");
+           // Debug.Log("BB FUCK ME");
         }
 
     }

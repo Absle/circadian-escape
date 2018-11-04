@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+       /* if(Input.GetKeyDown(KeyCode.I))
         {
             inventoryEnabled = !inventoryEnabled;
 
@@ -37,7 +37,7 @@ public class Inventory : MonoBehaviour
         {
             inventory.SetActive(false);
         }
-
+        */
     }
 
    // public void PickedUp ()
