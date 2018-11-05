@@ -22,7 +22,8 @@ public class HideController : MonoBehaviour, StdT12.Interfaces.IInteractable
 	//animation fields
 	private bool isOpen = false;
 
-	// Switching cameras
+    // Switching cameras
+    public Camera phoneCam;
 	private Camera main;
 	private Camera cam;
 	private GameObject player;
@@ -72,11 +73,13 @@ public class HideController : MonoBehaviour, StdT12.Interfaces.IInteractable
 			if (isOpen) {
 				main.enabled = false;
 				cam.enabled = true;
+                phoneCam.enabled = false;
 				player.GetComponent<FirstPersonController>().enabled = false;
 			} else {
 
 				main.enabled = true;
 				cam.enabled = false;
+                phoneCam.enabled = true;
 				player.GetComponent<FirstPersonController> ().enabled = true;
 			}
 
