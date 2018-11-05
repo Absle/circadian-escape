@@ -17,7 +17,8 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
     [SerializeField]
     private string closeMessage = "Press 'E' to Close";
 
-    private static List<StdT12.Interfaces.IPickUpable> keyRing;
+    private int rootID;
+    private PlayerController playerController;
     
     //interaction fields
     private bool canInteract = true;
@@ -34,7 +35,18 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private void Start()
     {
-        keyRing = (GameObject.FindObjectOfType(typeof(PlayerController)) as PlayerController).KeyRing;
+        //?
+        /*
+         * GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerController pController = player.GetComponent(typeof(PlayerController)) as PlayerController;
+        Debug.Log(  "\n player: " + (player == null ? "fail" : "success") +
+                    "\n pController: " + (pController == null ? "fail" : "success") +
+                    "\n keyRing: " + (keyRing == null ? "fail" : "success"));
+        keyRing = pController.KeyRing;
+        */
+        //keyRing = (GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerController)) as PlayerController).KeyRing;
+        rootID = transform.root.gameObject.GetInstanceID();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerController)) as PlayerController;
 
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
@@ -45,7 +57,11 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 	
 	private void Update()
     {
-		//check if animation is done, reset interaction variables if it is
+        //reality check to keep animator and script in sync
+        isOpen = anim.GetBool(animParamOpenId);
+        UpdateInteractMessage();
+
+        //check if animation is done, reset interaction variables if it is
         if(!canInteract && Time.time >= interactTime)
         {
             canInteract = true;
@@ -57,7 +73,15 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
     {
         if(isLocked)
         {
-            //if(keyRing)
+            if(playerController.KeyRing.Contains(rootID))
+            {
+                interactMessage = unlockMessage;
+            }
+
+            else
+            {
+                interactMessage = lockedMessage;
+            }
         }
 
         else if(isOpen)
@@ -75,9 +99,21 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
     {
         if(isLocked)
         {
-            //TODO: add a locked door "click" or sound effect
+            //TODO: add locked door "click" sound effect
+
+            //if the player has the key, unlock the door
+            if(playerController.KeyRing.Contains(rootID))
+            {
+                isLocked = false;
+            }
+
+            //if the player attempts to open the door w/o a key
+            else
+            {
+                
+            }
         }
-        
+
         //only allow interaction when not animating
         else if(canInteract)
         {

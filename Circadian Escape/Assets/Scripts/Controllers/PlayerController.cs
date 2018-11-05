@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private Text actionPrompt;
     private PlayerInventory inv;
-    public List<IPickUpable> KeyRing { get { return inv.KeyRing; } }
+    public List<int> KeyRing { get { return inv.KeyRing; } }
 
     private Transform camTransform;
 
@@ -77,15 +77,15 @@ public class PlayerController : MonoBehaviour
         private int numBatteries;
         //public int NumBatteries { get { return numBatteries; } }
 
-        private List<IPickUpable> keyRing;
-        public List<IPickUpable> KeyRing { get { return keyRing; } }
+        private List<int> keyRing;
+        public List<int> KeyRing { get { return keyRing; } }
 
         private Text batteryCounter;
 
         public PlayerInventory()
         {
             numBatteries = 0;
-            keyRing = new List<IPickUpable>();
+            keyRing = new List<int>();
 
             batteryCounter = GameObject.Find("BatteryCounter").GetComponent<Text>();
             UpdateUI();
@@ -109,7 +109,9 @@ public class PlayerController : MonoBehaviour
 
             else if(item.Type == PickUpType.KeyItem)
             {
-                keyRing.Add(item);
+                KeyItem key = item as KeyItem;
+                keyRing.Add(key.DoorID);
+                Destroy(itemObj);
             }
 
             else

@@ -14,9 +14,18 @@ public class KeyItem : MonoBehaviour, IPickUpable
     private PickUpType type = PickUpType.KeyItem;
     public PickUpType Type { get { return type; } }
 
+    private int doorID;
+    public int DoorID { get { return doorID; } }
+
     // Use this for initialization
     void Start ()
     {
-		
+        //?
+        GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
+        int randDex = Random.Range(0, doorList.Length);
+        Debug.Log(randDex + " " + doorList.Length);
+        doorID = doorList[randDex].GetInstanceID();
+        DoorController doorController = doorList[randDex].GetComponentInChildren(typeof(DoorController)) as DoorController;
+        doorController.isLocked = true;
 	}
 }

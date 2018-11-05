@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4443994397248008}
   - component: {fileID: 95543191334031964}
   - component: {fileID: 82953923887158292}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V2-anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 23524237101471168}
   - component: {fileID: 64070786593627414}
   - component: {fileID: 54868380218273750}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V2_Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4726143061441266}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightHinge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 64245067220526496}
   - component: {fileID: 54250134338423570}
   - component: {fileID: 114961555964658672}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V2_Right
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 33106245670085872}
   - component: {fileID: 23710700504535572}
   - component: {fileID: 64184597049122334}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V2_Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4165084941754576}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftHinge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 23205256679304816}
   - component: {fileID: 64688471352141042}
   - component: {fileID: 54339343198957392}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V2_Window2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 64673177291655244}
   - component: {fileID: 54602251632591948}
   - component: {fileID: 114536438082862804}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V2_Left
   m_TagString: Interactable
   m_Icon: {fileID: 0}

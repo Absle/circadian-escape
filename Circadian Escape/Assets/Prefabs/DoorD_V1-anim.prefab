@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 64543568822950740}
   - component: {fileID: 54023754449763402}
   - component: {fileID: 114451535593369484}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_Right
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4225631119642930}
   - component: {fileID: 95226828934360076}
   - component: {fileID: 82836475395116040}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_V1-anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 33168775667578752}
   - component: {fileID: 23924047982209190}
   - component: {fileID: 64017651127762982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 64872525350573974}
   - component: {fileID: 54965310983718344}
   - component: {fileID: 114676008505178166}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DoorD_Left
   m_TagString: Interactable
   m_Icon: {fileID: 0}

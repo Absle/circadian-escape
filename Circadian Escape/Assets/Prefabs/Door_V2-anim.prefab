@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4531244207599740}
   - component: {fileID: 95433668411525624}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Door_V2-anim
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 33495926317814304}
   - component: {fileID: 23547915533244696}
   - component: {fileID: 64411077896356058}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Door_Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 54946055466484926}
   - component: {fileID: 114079735623530804}
   - component: {fileID: 82279612562324980}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Door
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -358,5 +358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2305ec795e65c6348853261703e2569b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 0
+  lockedMessage: Locked
+  unlockMessage: Press 'E' to Unlock
   openMessage: Press 'E' to Open
   closeMessage: Press 'E' to Close
