@@ -17,14 +17,14 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
     [SerializeField]
     private string closeMessage = "Press 'E' to Close";
 
-    private static List<StdT12.Interfaces.IPickUpable> keyRing;
-    
+    //private static List<StdT12.Interfaces.IPickUpable> keyRing;
+
     //interaction fields
     private bool canInteract = true;
     private float interactTime = 0.0f;
     private string interactMessage = "";
     public string InteractMessage { get { return (canInteract ? interactMessage : ""); } }
-    
+
     //animation fields
     private bool isOpen = false;
     private int animParamOpenId;
@@ -34,7 +34,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private void Start()
     {
-        keyRing = (GameObject.FindObjectOfType(typeof(PlayerController)) as PlayerController).KeyRing;
+        //keyRing = (GameObject.FindObjectOfType(typeof(PlayerController)) as PlayerController).KeyRing;
 
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
@@ -42,7 +42,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
         UpdateInteractMessage();
     }
-	
+
 	private void Update()
     {
 		//check if animation is done, reset interaction variables if it is
@@ -77,7 +77,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
         {
             //TODO: add a locked door "click" or sound effect
         }
-        
+
         //only allow interaction when not animating
         else if(canInteract)
         {
