@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StdT12;
-using StdT12.Interfaces;
 using StdT12.Enums;
+using StdT12.Interfaces;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float maxInteractDist = 2.0f;
 
-    public bool canInteract = false;
-
-    private Canvas canvas;
     private Text actionPrompt;
-    private int numBatteries = 0;
-    private Text batteryCounter;
-    private Transform camTransform;
+    private PlayerInventory inv;
+    public List<IPickUpable> KeyRing { get { return inv.KeyRing; } }
 
-    //?
-    bool WINNING = false;
+    private Transform camTransform;
 
     private void Start()
     {
-        canvas = GameObject.FindObjectOfType<Canvas>();
         actionPrompt = GameObject.Find("ActionPrompt").GetComponent<Text>();
-        batteryCounter = GameObject.Find("BatteryCounter").GetComponent<Text>();
+        actionPrompt.text = "";
+        actionPrompt.enabled = true;
 
         camTransform = Camera.main.transform;
+        inv = new PlayerInventory();
 	}
 	
 	private void Update()
     {
-        //check for raycast hits
+        HandleRaycasting();
+	}
+
+    private void HandleRaycasting()
+    {
+        string message = "";
         RaycastHit hit;
         if(Physics.Raycast(camTransform.position, camTransform.forward, out hit, maxInteractDist))
         {
@@ -43,8 +44,7 @@ public class PlayerController : MonoBehaviour
                 IInteractable interactable = hit.collider.gameObject.GetComponent(typeof(IInteractable)) as IInteractable; //get interactable object
 
                 //display interaction message
-                actionPrompt.text = interactable.InteractMessage;
-                actionPrompt.enabled = true;
+                message = interactable.InteractMessage;
 
                 //let player interact with 'E'
                 if(Input.GetKeyDown(KeyCode.E))
@@ -54,78 +54,79 @@ public class PlayerController : MonoBehaviour
             }
 
             //check for pick up items
-            else if (hit.collider.CompareTag("PickUp"))
+            else if(hit.collider.CompareTag("PickUp"))
             {
                 IPickUpable pickup = hit.collider.gameObject.GetComponent(typeof(IPickUpable)) as IPickUpable; //get pickup item
-
-                //display pick up message
-                actionPrompt.text = pickup.PickUpMessage;
-                actionPrompt.enabled = true;
+                message = pickup.PickUpMessage;
 
                 if(Input.GetKeyDown(KeyCode.E))
                 {
-                    PickUpType type = pickup.Type;
-                    WINNING = (hit.collider.gameObject.name == "TheBiggestPickle"); //?
-                    Destroy(hit.collider.gameObject);
-                    if(type == PickUpType.Battery)
-                    {
-                        ++numBatteries;
-                    }
-                    /*//? TODO: add the item to the inventory, not just display it in the log
-                    Debug.Log("YOU PICKED UP: " + type.ToString()); //?*/
+                    GameObject pickupObj = hit.collider.gameObject;
+                    inv.AddItem(pickup, pickupObj);
                 }
             }
+        }
 
-            //?
-           
+        //display message
+        actionPrompt.text = message;
+    }
 
-            //if no interesting objects found, disable actionPrompt
-            else
+    //nested private class to handle inventory and items
+    private class PlayerInventory
+    {
+        private int numBatteries;
+        //public int NumBatteries { get { return numBatteries; } }
+
+        private List<IPickUpable> keyRing;
+        public List<IPickUpable> KeyRing { get { return keyRing; } }
+
+        private Text batteryCounter;
+
+        public PlayerInventory()
+        {
+            numBatteries = 0;
+            keyRing = new List<IPickUpable>();
+
+            batteryCounter = GameObject.Find("BatteryCounter").GetComponent<Text>();
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            batteryCounter.text = string.Format("Batteries: {0}", numBatteries);
+
+            //TODO: integrate key items into UI when it's finished'
+
+        }
+
+        public void AddItem(IPickUpable item, GameObject itemObj)
+        {
+            if(item.Type == PickUpType.Battery)
             {
-                actionPrompt.enabled = false;
+                ++numBatteries;
+                Destroy(itemObj);
             }
 
-            batteryCounter.text = "Batteries: " + numBatteries;
-        }
-        else if (WINNING)
-        {
-            actionPrompt.fontSize = 50;
-            actionPrompt.text = "YOU HAVE FIND THE BIGGEST PICKLE!\nDANNY'S QUEST IS COMPLETE!\nYOU WIN!!!";
-            actionPrompt.enabled = true;
+            else if(item.Type == PickUpType.KeyItem)
+            {
+                keyRing.Add(item);
+            }
+
+            else
+            {
+                Debug.LogError("PlayerInventory does not have handling for this PickUpType!");
+            }
+
+            UpdateUI();
         }
 
-        else
+        public void UseBattery()
         {
-            actionPrompt.enabled = false;
+            if(numBatteries > 0)
+            {
+                --numBatteries;
+                //TODO: integrate into battery bar
+            }
         }
-        
-        /*IInteractable interactable = CheckForInteractables();
-        if(canInteract && Input.GetKeyDown(KeyCode.E))
-        {
-            interactable.Interact();
-        }
-
-        IPickUpable pickup = CheckForPickUps();*/
-	}
-
-    /*private IInteractable CheckForInteractables()
-    {
-        IInteractable interactable = null;
-        RaycastHit hit;
-        if(Physics.Raycast(camTransform.position, camTransform.forward, out hit, maxInteractDist) && hit.collider.CompareTag("Interactable"))
-        {
-            canInteract = true;
-            interactable = hit.collider.gameObject.GetComponent(typeof(IInteractable)) as IInteractable;
-            actionPrompt.text = interactable.InteractMessage;
-            actionPrompt.enabled = true;
-        }
-
-        else
-        {
-            canInteract = false;
-            actionPrompt.enabled = false;
-        }
-
-        return interactable;
-    }*/
+    }
 }
