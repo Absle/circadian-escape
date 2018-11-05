@@ -25,7 +25,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
     private float interactTime = 0.0f;
     private string interactMessage = "";
     public string InteractMessage { get { return (canInteract ? interactMessage : ""); } }
-    
+
     //animation fields
     private bool isOpen = false;
     private int animParamOpenId;
@@ -35,16 +35,6 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private void Start()
     {
-        //?
-        /*
-         * GameObject player = GameObject.FindGameObjectWithTag("Player");
-        PlayerController pController = player.GetComponent(typeof(PlayerController)) as PlayerController;
-        Debug.Log(  "\n player: " + (player == null ? "fail" : "success") +
-                    "\n pController: " + (pController == null ? "fail" : "success") +
-                    "\n keyRing: " + (keyRing == null ? "fail" : "success"));
-        keyRing = pController.KeyRing;
-        */
-        //keyRing = (GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerController)) as PlayerController).KeyRing;
         rootID = transform.root.gameObject.GetInstanceID();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerController)) as PlayerController;
 
@@ -54,7 +44,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
         UpdateInteractMessage();
     }
-	
+
 	private void Update()
     {
         //reality check to keep animator and script in sync
