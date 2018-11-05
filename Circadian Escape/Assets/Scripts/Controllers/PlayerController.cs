@@ -17,11 +17,15 @@ public class PlayerController : MonoBehaviour
 
     private Transform camTransform;
 
+	// Used for AI
+	public bool isHiding = false;
+
     private void Start()
     {
         actionPrompt = GameObject.Find("ActionPrompt").GetComponent<Text>();
         actionPrompt.text = "";
         actionPrompt.enabled = true;
+		isHiding = false; 
 
         camTransform = Camera.main.transform;
         inv = new PlayerInventory();

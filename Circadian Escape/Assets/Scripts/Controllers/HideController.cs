@@ -26,6 +26,7 @@ public class HideController : MonoBehaviour, StdT12.Interfaces.IInteractable
 	private Camera main;
 	private Camera cam;
 	private GameObject player;
+	private PlayerController playerController;
 
 	private void Start()
 	{
@@ -36,6 +37,8 @@ public class HideController : MonoBehaviour, StdT12.Interfaces.IInteractable
 		cam.enabled = false;
 		//cam = GameObject.FindObjectOfType<Camera> ().GetComponent<Camera> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
+		playerController = player.GetComponent (typeof(PlayerController)) as PlayerController;
+		//playerController = gameObject.GetComponent (typeof(PlayerController)) as PlayerController;
 	}
 
 	private void Update()
@@ -73,8 +76,9 @@ public class HideController : MonoBehaviour, StdT12.Interfaces.IInteractable
 				main.enabled = false;
 				cam.enabled = true;
 				player.GetComponent<FirstPersonController>().enabled = false;
+				playerController.isHiding = true;
 			} else {
-
+				playerController.isHiding = false;
 				main.enabled = true;
 				cam.enabled = false;
 				player.GetComponent<FirstPersonController> ().enabled = true;
