@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using StdT12;
 
-public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
+public class ExitDoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 {
-    public bool isLocked = false;
+    public bool isLocked = true;
 
     [SerializeField]
     private string lockedMessage = "Locked";
@@ -19,7 +19,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private int rootID;
     private PlayerController playerController;
-    
+
     //interaction fields
     private bool canInteract = true;
     private float interactTime = 0.0f;
@@ -28,27 +28,27 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     //animation fields
     private bool isOpen = false;
-    private int animParamOpenId;
+    //private int animParamOpenId;
     private const float DEFAULT_DOOR_ANIMATION_LENGTH = 3.0f;
-    private Animator anim;
-    private AudioSource audSrc;
+    //private Animator anim;
+    //private AudioSource audSrc;
 
     private void Start()
     {
-        rootID = transform.root.gameObject.GetInstanceID();
+        rootID = gameObject.GetInstanceID();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerController)) as PlayerController;
 
-        anim = gameObject.GetComponentInParent<Animator>();
-        animParamOpenId = Animator.StringToHash("Open");
-        audSrc = gameObject.GetComponent<AudioSource>();
+        //anim = gameObject.GetComponentInParent<Animator>();
+        //animParamOpenId = Animator.StringToHash("Open");
+        //audSrc = gameObject.GetComponent<AudioSource>();
 
-        UpdateInteractMessage();
+        //UpdateInteractMessage();
     }
 
-	private void Update()
+    private void Update()
     {
         //reality check to keep animator and script in sync
-        isOpen = anim.GetBool(animParamOpenId);
+        //isOpen = anim.GetBool(animParamOpenId);
         UpdateInteractMessage();
 
         //check if animation is done, reset interaction variables if it is
@@ -57,7 +57,7 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
             canInteract = true;
             interactTime = 0.0f;
         }
-	}
+    }
 
     private void UpdateInteractMessage()
     {
@@ -95,12 +95,14 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
             if(playerController.KeyRing!=null && playerController.KeyRing.Contains(rootID))
             {
                 isLocked = false;
+                //TODO: actual win condition
+                Debug.Log("YOU ESCAPED!!!");
             }
 
             //if the player attempts to open the door w/o a key
             else
             {
-                
+
             }
         }
 
@@ -111,8 +113,8 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
             //toggle door state and play animation
             isOpen = !isOpen;
-            anim.SetBool(animParamOpenId, isOpen);
-            PlayAudio();
+            //anim.SetBool(animParamOpenId, isOpen);
+            //PlayAudio();
 
             //get time until animation is complete
             float current = Time.time;
@@ -129,13 +131,13 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
         //play door opening sound
         if(isOpen)
         {
-            audSrc.Play();
+            //audSrc.Play();
         }
 
         //play door closing sound
         else
         {
-            audSrc.Play();
+            //audSrc.Play();
         }
     }
 }
