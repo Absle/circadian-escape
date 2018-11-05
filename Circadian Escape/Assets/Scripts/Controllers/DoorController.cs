@@ -6,17 +6,25 @@ using StdT12;
 
 public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 {
+    public bool isLocked = false;
+
+    [SerializeField]
+    private string lockedMessage = "Locked";
+    [SerializeField]
+    private string unlockMessage = "Press 'E' to Unlock";
     [SerializeField]
     private string openMessage = "Press 'E' to Open";
     [SerializeField]
     private string closeMessage = "Press 'E' to Close";
+
+    //private static List<StdT12.Interfaces.IPickUpable> keyRing;
 
     //interaction fields
     private bool canInteract = true;
     private float interactTime = 0.0f;
     private string interactMessage = "";
     public string InteractMessage { get { return (canInteract ? interactMessage : ""); } }
-    
+
     //animation fields
     private bool isOpen = false;
     private int animParamOpenId;
@@ -26,12 +34,15 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private void Start()
     {
+        //keyRing = (GameObject.FindObjectOfType(typeof(PlayerController)) as PlayerController).KeyRing;
+
         anim = gameObject.GetComponentInParent<Animator>();
         animParamOpenId = Animator.StringToHash("Open");
         audSrc = gameObject.GetComponent<AudioSource>();
+
         UpdateInteractMessage();
     }
-	
+
 	private void Update()
     {
 		//check if animation is done, reset interaction variables if it is
@@ -44,7 +55,12 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     private void UpdateInteractMessage()
     {
-        if(isOpen)
+        if(isLocked)
+        {
+            //if(keyRing)
+        }
+
+        else if(isOpen)
         {
             interactMessage = closeMessage;
         }
@@ -57,8 +73,13 @@ public class DoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 
     public void Interact()
     {
+        if(isLocked)
+        {
+            //TODO: add a locked door "click" or sound effect
+        }
+
         //only allow interaction when not animating
-        if(canInteract)
+        else if(canInteract)
         {
             canInteract = false;
 

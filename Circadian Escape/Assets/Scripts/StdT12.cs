@@ -8,25 +8,26 @@ namespace StdT12
     {
         public enum PickUpType
         {
-            Battery
+            Battery, 
+            KeyItem
         }
     }
 
     namespace Interfaces
     {
-        interface IInteractable
+        public interface IInteractable
         {
             string InteractMessage { get; }
             void Interact();
         }
 
-        interface IPickUpable
+        public interface IPickUpable
         {
             string PickUpMessage { get; }
             Enums.PickUpType Type { get; }
         }
 
-		interface IHide
+		public interface IHide
 		{
 			string HideMessage { get; }
 			void Hide();
