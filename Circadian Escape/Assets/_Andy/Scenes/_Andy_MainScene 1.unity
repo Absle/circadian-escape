@@ -1430,6 +1430,11 @@ Prefab:
       propertyPath: m_Speed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114298133157045986, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f,
+        type: 2}
+      propertyPath: LOSE_DISTANCE
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f, type: 2}
   m_IsPrefabAsset: 0

@@ -21,14 +21,18 @@ public class Patrol : MonoBehaviour {
 	// Get the enemy position
 	public Transform enemyTransform;
 	public Transform phoneTransform;
-	public bool flag = false; 
+	public bool flag = false;
+
+
+    public float LOSE_DISTANCE = 1.5f;
+
 
 	// Use this for initialization
 	void Start () {
 		agent = GetComponent<NavMeshAgent> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
 		playerController = player.GetComponent (typeof(PlayerController)) as PlayerController;
-		Debug.Log ((player==null) + " " + (playerController==null));
+		//Debug.Log ((player==null) + " " + (playerController==null));
 		//playerController = gameObject.GetComponent(typeof(PlayerController)) as PlayerController;
 
 		for (int i = 0; i < goArray.Length; i++) {
@@ -38,7 +42,7 @@ public class Patrol : MonoBehaviour {
 		agent.autoBraking = false;
 
 		GoToNextPoint ();
-		Debug.Log ("Start");
+		//Debug.Log ("Start");
 	}
 
 	void GoToNextPoint(){
@@ -61,7 +65,7 @@ public class Patrol : MonoBehaviour {
 
 		if (playerController.isHiding) {
 			if (!agent.pathPending && agent.remainingDistance < 2.0f) {
-				Debug.Log ("BackToSearch");
+				//Debug.Log ("BackToSearch");
 				GoToNextPoint ();
 			}
 		} else {
@@ -82,12 +86,19 @@ public class Patrol : MonoBehaviour {
 			if (hit.collider.CompareTag ("Phone")) {
 				agent.SetDestination (player.transform.position);
 				flag = true;
-				Debug.Log ("RayCast In");
+                //Debug.Log ("RayCast In");
+                Debug.Log("distance: " + Vector3.Distance(player.transform.position, gameObject.transform.position));
+
+                //? TODO: get a real lose state, this is definitely not it
+                if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
+                {
+                    Debug.Log("YOU DIED!!!");
+                }
 			} else if (flag) {
 				flag = false;
 				target = player.transform;
 				agent.SetDestination (target.position);
-				Debug.Log ("Out of sight!");
+				//Debug.Log ("Out of sight!");
 			}
 			//}
 
@@ -97,7 +108,7 @@ public class Patrol : MonoBehaviour {
 				agent.SetDestination (player.transform.position);
 			} else */
 			else if (!agent.pathPending && agent.remainingDistance < 2.0f) {
-				Debug.Log ("BackToSearch");
+				//Debug.Log ("BackToSearch");
 				GoToNextPoint ();
 			}
 		}
