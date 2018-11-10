@@ -9,7 +9,7 @@ public class PauseMenu : MonoBehaviour {
     private bool paused;
     public GameObject pauseMenu;
     private GameObject player;
-    public Button resumeButton;
+  //  public Button resumeButton;
 
     // public void Start()
     // {
@@ -59,7 +59,7 @@ public class PauseMenu : MonoBehaviour {
             player.GetComponent<FirstPersonController>().enabled = true;
             Cursor.visible = false;
             Screen.lockCursor = true;
-        resume = false;
+     //   resume = false;
     }
     
          

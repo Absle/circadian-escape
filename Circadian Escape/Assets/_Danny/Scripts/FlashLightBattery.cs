@@ -19,6 +19,7 @@ public class FlashLightBattery : MonoBehaviour
     private int batteries;
     private float currentEnergy;
 
+    private PlayerController anotherScript;
 
 
     public void Start()
@@ -26,6 +27,7 @@ public class FlashLightBattery : MonoBehaviour
         batteries = 1;
         currentEnergy = maxEnergy;
         maxEnergy = 50 * batteries;
+      //  anotherScript = GetComponent<PlayerController>();
     }
 
     public void Update()

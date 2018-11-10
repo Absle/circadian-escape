@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StdT12;
+using UnityEngine.SceneManagement;
 
 public class ExitDoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
 {
@@ -97,6 +98,7 @@ public class ExitDoorController : MonoBehaviour, StdT12.Interfaces.IInteractable
                 isLocked = false;
                 //TODO: actual win condition
                 Debug.Log("YOU ESCAPED!!!");
+                SceneManager.LoadScene(3);
             }
 
             //if the player attempts to open the door w/o a key

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using StdT12.Interfaces;
+using UnityEngine.SceneManagement;
 
 public class Patrol : MonoBehaviour {
 
@@ -92,6 +93,7 @@ public class Patrol : MonoBehaviour {
                 //? TODO: get a real lose state, this is definitely not it
                 if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
                 {
+                    SceneManager.LoadScene(2);
                     Debug.Log("YOU DIED!!!");
                 }
 			} else if (flag) {
