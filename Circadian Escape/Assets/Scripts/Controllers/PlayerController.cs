@@ -11,10 +11,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float maxInteractDist = 2.0f;
 
-    private Text actionPrompt;
     private PlayerInventory inv;
     public List<int> KeyRing { get { return inv.KeyRing; } }
+    public bool InTutorial { get; private set; }
 
+    private Text actionPrompt;
     private Transform camTransform;
 
 	// Used for AI
@@ -22,6 +23,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //?
+        //InTutorial = true;
+        InTutorial = false;
+
         actionPrompt = GameObject.Find("ActionPrompt").GetComponent<Text>();
         actionPrompt.text = "";
         actionPrompt.enabled = true;

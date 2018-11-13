@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using StdT12;
 using UnityStandardAssets.Characters.FirstPerson;
+using StdT12;
 
 public class HideController : MonoBehaviour, StdT12.Interfaces.IInteractable
 {

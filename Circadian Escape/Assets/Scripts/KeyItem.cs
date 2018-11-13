@@ -37,7 +37,7 @@ public class KeyItem : MonoBehaviour, IPickUpable
         GameObject[] nodes = GameObject.FindGameObjectsWithTag("Node");
         GameObject node = nodes[Random.Range(0, nodes.Length-1)];
         Debug.Log("KeyItem moving to " + node.name);
-        Vector3 offset = new Vector3(0.0f, 1.0f, 0.0f);
+        Vector3 offset = new Vector3(0.0f, 1.0f, 0.0f); //most nodes set into floor, need to offset above
         gameObject.transform.position = node.transform.position + offset;
 	}
 }
