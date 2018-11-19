@@ -7,15 +7,16 @@ using StdT12.Enums;
 
 public class BeastController : MonoBehaviour
 {
-    private T12_GameManager manager;
-    private PlayerController player;
-    private Camera phone;
-    private NavMeshAgent agent;
-    private GameObject[] rooms;
+    private T12_GameManager manager = null;
+    private PlayerController player = null;
+    private Camera phone = null;
+    private GameObject[] rooms = null;
+    private NavMeshAgent agent = null;
 
     public BeastAIState CurrentState { get; private set; }
     public GameObject CurrentTarget { get; private set; }
 
+    private bool firstUpdate;
     private bool canSeePlayer;
     private bool visibleToPlayer;
     private bool stateChanged;
@@ -26,7 +27,7 @@ public class BeastController : MonoBehaviour
     [SerializeField]
     private int maxConsiderSearch = 3;
     [SerializeField]
-    private float targetWanderDistance = 2.0f;
+    private float targetWanderDistance = 1.0f;
     [SerializeField]
     private float minApproachDistance = 5.0f;
     [SerializeField]
@@ -36,7 +37,7 @@ public class BeastController : MonoBehaviour
     [SerializeField]
     private float pursueSpeed = 5.0f;
     [SerializeField]
-    private float maxSightDistance = 50.0f;
+    private float maxSightDistance = 1000.0f;
     
     private delegate void StateBehavior();
     private StateBehavior tutorial;
@@ -51,17 +52,12 @@ public class BeastController : MonoBehaviour
     {
         manager = FindObjectOfType<T12_GameManager>();
 
-        //?
-        player = manager.Player;
-        //player = StdT12Common.Player;
-        phone = manager.PhoneCamera;
         agent = gameObject.GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
-        rooms = manager.RoomGraph;
-        //rooms = StdT12Common.RoomGraph;
 
         CurrentState = BeastAIState.Tutorial;
 
+        firstUpdate = true;
         canSeePlayer = false;
         visibleToPlayer = false;
         stateChanged = false;
@@ -75,29 +71,45 @@ public class BeastController : MonoBehaviour
         search = new StateBehavior(StateSearchBehavior);
         currentBehavior = tutorial;
 
-        /*
-        //?
-        foreach(GameObject node in rooms)
-        {
-            Debug.Log(node.name);
-        }
-        */
+        agent.speed = 2.0f; //!
     }
-	
-	// Update is called once per frame
-	private void Update()
+
+    // Update is called once per frame
+    private void Update()
     {
+        if(firstUpdate)
+        {
+            firstUpdate = false;
+            player = manager.Player;
+            phone = manager.PhoneCamera;
+            rooms = manager.RoomGraph;
+        }
+
         //first, determine state flags
         //check if player is in line of sight
         RaycastHit hit;
-        if( Physics.Raycast(transform.position, (player.transform.position - transform.position), out hit, maxSightDistance) &&
-            (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Phone")))
+        Physics.Raycast(transform.position, (player.transform.position - transform.position), out hit, maxSightDistance);
+        if(hit.collider.CompareTag("Player") || hit.collider.CompareTag("Phone"))
         {
+            //?
+            /*
+            if(!canSeePlayer)
+            {
+                Debug.Log("Player spotted!");
+            }
+            */
+
             canSeePlayer = true;
         }
-        else
+        else if(canSeePlayer) //?
         {
             canSeePlayer = false;
+
+            //?
+            /*
+            Debug.Log("Player lost!");
+            Debug.Log(hit.collider.gameObject.name);
+            */
         }
 
         //check if beast position is in phone camera view port
@@ -144,7 +156,7 @@ public class BeastController : MonoBehaviour
 
             case BeastAIState.Wander:
                 // wander --> approach
-                if(canSeePlayer)
+                if(canSeePlayer && !player.isHiding)
                 {
                     CurrentState = BeastAIState.Approach;
                     stateChanged = true;
@@ -185,7 +197,6 @@ public class BeastController : MonoBehaviour
                 // search --> pursue
                 if(canSeePlayer && !player.isHiding)
                 {
-                    numRoomSearched = 0;
                     CurrentState = BeastAIState.Pursue;
                     stateChanged = true;
                     currentBehavior = pursue;
@@ -194,7 +205,6 @@ public class BeastController : MonoBehaviour
                 // search --> wander
                 else if(numRoomSearched >= maxSearchRooms)
                 {
-                    numRoomSearched = 0;
                     CurrentState = BeastAIState.Wander;
                     stateChanged = true;
                     currentBehavior = wander;
@@ -217,8 +227,8 @@ public class BeastController : MonoBehaviour
 
     private void TeleportToRoom(GameObject destination)
     {
-        Vector3 offset = new Vector3(0.0f, 1.0f, 0.0f); //most nodes set into floor, need to offset above
-        gameObject.transform.position = destination.transform.position + offset;
+        //Vector3 offset = new Vector3(0.0f, 1.0f, 0.0f); //most nodes set into floor, need to offset above
+        gameObject.transform.position = destination.transform.position;// + offset;
 
         //?
         Debug.Log("Enemy teleported to " + destination.name);
@@ -231,7 +241,7 @@ public class BeastController : MonoBehaviour
             stateChanged = false;
 
             //?
-            Debug.Log("Running Tutorial Behavior...");
+            //Debug.Log("Running Tutorial Behavior...");
         }
 
 
@@ -242,25 +252,25 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            agent.speed = wanderSpeed;
+            //! agent.speed = wanderSpeed;
             CurrentTarget = GetRandomRoomNode();
             agent.SetDestination(CurrentTarget.transform.position);
 
             //?
-            Debug.Log("Running Wander Behavior...");
-            Debug.Log("Wandering to " + CurrentTarget.name);
+            //Debug.Log("Running Wander Behavior...");
+            //Debug.Log("Wandering to " + CurrentTarget.name);
         }
 
+        //upon reaching target
         else if(!agent.pathPending && agent.remainingDistance < targetWanderDistance)
         {
+            //!
             CurrentTarget = GetRandomRoomNode();
             agent.SetDestination(CurrentTarget.transform.position);
 
             //?
-            Debug.Log("Wandering to " + CurrentTarget.name);
+            //Debug.Log("Wandering to " + CurrentTarget.name);
         }
-        
-
     }
 
     private void StateApproachBehavior()
@@ -268,15 +278,18 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            agent.speed = wanderSpeed;
+            //! agent.speed = wanderSpeed;
             CurrentTarget = player.gameObject;
             agent.SetDestination(player.transform.position);
 
             //?
-            Debug.Log("Running Approach Behavior...");
+            //Debug.Log("Running Approach Behavior...");
         }
 
-        
+        else if(!agent.pathPending)
+        {
+            agent.SetDestination(player.transform.position);
+        }
     }
 
     private void StatePursueBehavior()
@@ -284,15 +297,18 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            agent.speed = pursueSpeed;
+            //! agent.speed = pursueSpeed;
             CurrentTarget = player.gameObject;
             agent.SetDestination(player.transform.position);
 
             //?
-            Debug.Log("Running Pursue Behavior...");
+            //Debug.Log("Running Pursue Behavior...");
         }
 
-        
+        else if(!agent.pathPending)
+        {
+            agent.SetDestination(player.transform.position);
+        }
     }
 
     private void StateSearchBehavior()
@@ -300,18 +316,20 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            agent.speed = wanderSpeed;
-            CurrentTarget = null;
+            //! agent.speed = wanderSpeed;
+            CurrentTarget = player.gameObject;
+            numRoomSearched = 0;
             agent.SetDestination(lastKnownPlayerPos);
 
             //?
-            Debug.Log("Running Search Behavior...");
+            //Debug.Log("Running Search Behavior...");
         }
 
         //if last known player location or search location is reached is reached
-        else if(agent.remainingDistance <= minApproachDistance)
+        else if(!agent.pathPending && agent.remainingDistance <= targetWanderDistance)
         {
-            if(CurrentTarget == null)
+            //if last known player location is reached
+            if(CurrentTarget == player.gameObject)
             {
                 //copy the list of room nodes
                 GameObject[] nearestRooms = new GameObject[rooms.Length];
@@ -336,10 +354,11 @@ public class BeastController : MonoBehaviour
                     }
                 }
 
-                //randomly choose 1 of the <maxConsiderSearch> closest rooms on the same floor
+                //randomly choose one of the <maxConsiderSearch> closest rooms on the same floor
                 CurrentTarget = nearestRooms[Random.Range(0, maxConsiderSearch - 1)];
                 agent.SetDestination(CurrentTarget.transform.position);
 
+                
                 //?
                 string roomNames = "Rooms: ";
                 foreach(GameObject node in rooms)
@@ -354,11 +373,17 @@ public class BeastController : MonoBehaviour
                 }
                 Debug.Log(nearNames);
                 Debug.Log(string.Format("Closest Search Options: {0}, {1}, {2}", nearestRooms[0].name, nearestRooms[1].name, nearestRooms[2].name));
-                Debug.Log("Going to " + CurrentTarget.name);
+                Debug.Log("Searching: " + CurrentTarget.name);
+                
+                //?
+                //Debug.Log("Reached last known. Searching: " + CurrentTarget.name);
             }
+
+            //if the room to be searched is reached, increment
             else
             {
                 numRoomSearched++;
+                Debug.Log("Finished searching " + CurrentTarget.name);
             }
         }
     }

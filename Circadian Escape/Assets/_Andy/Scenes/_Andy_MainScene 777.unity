@@ -2502,7 +2502,7 @@ Prefab:
     - target: {fileID: 65729693874632430, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114298133157045986, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f,
         type: 2}
@@ -2513,7 +2513,14 @@ Prefab:
       propertyPath: m_TagString
       value: Beast
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 136443678160797606, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 65729693874632430, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f, type: 2}
+    - {fileID: 136443678160797606, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 9ba2ca42ac85e8c4a8966ac8ab486f0f, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &514754546
@@ -3200,12 +3207,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxConsiderSearch: 3
-  targetWanderDistance: 2
+  targetWanderDistance: 1
   minApproachDistance: 5
   maxApproachTime: 60
   wanderSpeed: 3
   pursueSpeed: 5
-  maxSightDistance: 50
+  maxSightDistance: 1000
 --- !u!4 &646534381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728868450674868, guid: e0a5880773830924f98028369c4c4ce7,
@@ -7574,11 +7581,6 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114992138037416294, guid: 4ebcd87d464ba744898b24b2f6770644,
-        type: 2}
-      propertyPath: phoneCam
-      value: 
-      objectReference: {fileID: 1591237408}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ebcd87d464ba744898b24b2f6770644, type: 2}
   m_IsPrefabAsset: 0
