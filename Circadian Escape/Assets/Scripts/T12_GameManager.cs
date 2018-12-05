@@ -58,6 +58,6 @@ public class T12_GameManager : MonoBehaviour
     public void PlayerLose()
     {
         Debug.Log("YOU LOSE!!!");
-      //  SceneManager.LoadScene(2);
+        SceneManager.LoadScene(2);
     }
 }
