@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using StdT12.Interfaces;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class T12_GameManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class T12_GameManager : MonoBehaviour
     public Camera PhoneCamera { get; private set; }
     public BeastController Beast { get; private set; }
     public GameObject[] RoomGraph { get; private set; }
+
+	private GameObject player;
+	public GameObject slender;
 
     private void Awake()
     {
@@ -38,6 +42,8 @@ public class T12_GameManager : MonoBehaviour
         GameObject[] nodes = GameObject.FindGameObjectsWithTag("Node");
         RoomGraph = new GameObject[nodes.Length];
 
+		player = GameObject.FindGameObjectWithTag ("Player");
+
         //sort RoomGraph by node names (Node1 to Node18 as of 12 Nov. 2018)
         foreach(GameObject node in nodes)
         {
@@ -57,7 +63,13 @@ public class T12_GameManager : MonoBehaviour
 
     public void PlayerLose()
     {
-        Debug.Log("YOU LOSE!!!");
-        SceneManager.LoadScene(2);
+		SceneManager.LoadScene(2);
+		slender.GetComponent<AudioSource>().Play();
+	//	player.GetComponent<FirstPersonController>().enabled = false;
+		//Invoke("Dead", 8);
+		//yield WaitForSeconds(5);
+       // Debug.Log("YOU LOSE!!!");
+        
     }
+
 }

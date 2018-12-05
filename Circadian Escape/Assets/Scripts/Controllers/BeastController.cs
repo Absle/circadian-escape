@@ -262,7 +262,7 @@ public class BeastController : MonoBehaviour
 
     private void StateWanderBehavior()
     {
-		gameObject.GetComponent<AudioSource>().Stop();
+		//gameObject.GetComponent<AudioSource>().Stop();
 		playerReference.GetComponent<AudioSource>().Stop();
 
         if(stateChanged)
@@ -273,7 +273,7 @@ public class BeastController : MonoBehaviour
             CurrentTarget = GetRandomRoomNode();
             agent.SetDestination(CurrentTarget.transform.position);
 
-			//gameObject.GetComponent<AudioSource>().Stop();
+			gameObject.GetComponent<AudioSource>().Stop();
             //?
             //Debug.Log("Running Wander Behavior...");
             //Debug.Log("Wandering to " + CurrentTarget.name);
