@@ -7,10 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class Patrol : MonoBehaviour {
 
-	public float maxDistance = 25.0f;
+	public float maxSightDistance = 25.0f;
 	//public float lookRadius = 1.0f; // Enemy's sound radius
 	private GameObject player; // Refrence to our player
 	private PlayerController playerController;
+
+    public float attackRange = 1.5f;
 
 	// Graph
 	public GameObject[] goArray = new GameObject[18];
@@ -23,10 +25,6 @@ public class Patrol : MonoBehaviour {
 	public Transform enemyTransform;
 	public Transform phoneTransform;
 	public bool flag = false;
-
-
-    public float LOSE_DISTANCE = 1.5f;
-
 
 	// Use this for initialization
 	void Start () {
@@ -72,7 +70,7 @@ public class Patrol : MonoBehaviour {
 		} else {
 
 			RaycastHit hit;
-			Physics.Raycast (enemyTransform.position, phoneTransform.position - enemyTransform.position, out hit, maxDistance);
+			Physics.Raycast (enemyTransform.position, phoneTransform.position - enemyTransform.position, out hit, maxSightDistance);
 
 			/*
 			if (flag) {
@@ -83,7 +81,7 @@ public class Patrol : MonoBehaviour {
 			}
 			*/
 
-			//if (Physics.Raycast (enemyTransform.position, phoneTransform.position - enemyTransform.position, out hit, maxDistance)) {
+			//if (Physics.Raycast (enemyTransform.position, phoneTransform.position - enemyTransform.position, out hit, maxSightDistance)) {
 			if (hit.collider.CompareTag ("Phone")) {
 				agent.SetDestination (player.transform.position);
 				flag = true;
@@ -91,7 +89,7 @@ public class Patrol : MonoBehaviour {
                 Debug.Log("distance: " + Vector3.Distance(player.transform.position, gameObject.transform.position));
 
                 //? TODO: get a real lose state, this is definitely not it
-                if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
+                if(Vector3.Distance(player.transform.position, gameObject.transform.position) < attackRange)
                 {
                     SceneManager.LoadScene(2);
                     Debug.Log("YOU DIED!!!");
@@ -119,7 +117,7 @@ public class Patrol : MonoBehaviour {
 
 	/*private void HandleRaycasting(){
 		RaycastHit hit;
-		if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance)){
+		if (Physics.Raycast(transform.position, transform.forward, out hit, maxSightDistance)){
 			if (hit.collider.CompareTag("Player")){
 				agent.SetDestination(player.transform.position);
 			}
