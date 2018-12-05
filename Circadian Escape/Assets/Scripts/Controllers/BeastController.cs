@@ -116,15 +116,7 @@ public class BeastController : MonoBehaviour
         {
             canSeePlayer = false;
 
-			//if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
-             //   {
-            //        SceneManager.LoadScene(2);
-            //        Debug.Log("YOU DIED!!!");
-             //   }
-            //?
-            
-          //  Debug.Log("Player lost!");
-           // Debug.Log(hit.collider.gameObject.name);
+		
             
         }
 
