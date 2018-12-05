@@ -21,11 +21,12 @@ public class T12_GameManager : MonoBehaviour
             instance = this;
         }
 
-        else if(instance != this)
+    /*    else if(instance != this)
         {
             Destroy(this);
         }
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this)/
+		*/
     }
 
     private void Start()
@@ -57,6 +58,6 @@ public class T12_GameManager : MonoBehaviour
     public void PlayerLose()
     {
         Debug.Log("YOU LOSE!!!");
-        SceneManager.LoadScene(2);
+      //  SceneManager.LoadScene(2);
     }
 }

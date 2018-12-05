@@ -13,6 +13,7 @@ public class BeastController : MonoBehaviour
     private Camera phone = null;
     private GameObject[] rooms = null;
     private NavMeshAgent agent = null;
+	private GameObject playerReference;
 
     public BeastAIState CurrentState { get; private set; }
     public GameObject CurrentTarget { get; private set; }
@@ -67,6 +68,8 @@ public class BeastController : MonoBehaviour
 
         CurrentState = BeastAIState.Tutorial;
 
+		playerReference = GameObject.FindGameObjectWithTag ("Phone");
+
         firstUpdate = true;
         canSeePlayer = false;
         visibleToPlayer = false;
@@ -94,11 +97,11 @@ public class BeastController : MonoBehaviour
             rooms = manager.RoomGraph;
         }
 
-		if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
-                {
+		//if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
+      //          {
                    // SceneManager.LoadScene(2);
-                    Debug.Log("YOU DIED!!!");
-               }
+      //              Debug.Log("YOU DIED!!!");
+      //         }
         //first, determine state flags
         //check if player is in line of sight
         RaycastHit hit;
@@ -259,13 +262,18 @@ public class BeastController : MonoBehaviour
 
     private void StateWanderBehavior()
     {
+		gameObject.GetComponent<AudioSource>().Stop();
+		playerReference.GetComponent<AudioSource>().Stop();
+
         if(stateChanged)
         {
+			
             stateChanged = false;
             agent.speed = wanderSpeed;
             CurrentTarget = GetRandomRoomNode();
             agent.SetDestination(CurrentTarget.transform.position);
 
+			//gameObject.GetComponent<AudioSource>().Stop();
             //?
             //Debug.Log("Running Wander Behavior...");
             //Debug.Log("Wandering to " + CurrentTarget.name);
@@ -292,6 +300,7 @@ public class BeastController : MonoBehaviour
             CurrentTarget = player.gameObject;
             agent.SetDestination(player.transform.position);
 
+			gameObject.GetComponent<AudioSource>().Play();
             //?
             //Debug.Log("Running Approach Behavior...");
         }
@@ -306,6 +315,7 @@ public class BeastController : MonoBehaviour
     {
         if(stateChanged)
         {
+			playerReference.GetComponent<AudioSource>().Play();
             stateChanged = false;
             agent.speed = pursueSpeed;
             CurrentTarget = player.gameObject;
@@ -348,6 +358,8 @@ public class BeastController : MonoBehaviour
         //if last known player location or search location is reached is reached
         else if(!agent.pathPending && agent.remainingDistance <= targetWanderDistance)
         {
+			gameObject.GetComponent<AudioSource>().Stop();
+			playerReference.GetComponent<AudioSource>().Stop();
             //if last known player location is reached
             if(CurrentTarget == player.gameObject)
             {
