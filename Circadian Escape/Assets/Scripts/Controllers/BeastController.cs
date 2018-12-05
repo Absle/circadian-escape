@@ -23,25 +23,31 @@ public class BeastController : MonoBehaviour
     private bool stateChanged;
     private int numRoomSearched;
     private float playerDistance;
+    private float targetWanderDistance = 1.0f;
     private Vector3 lastKnownPlayerPos;
     private int maxSearchRooms = 1;
     [SerializeField]
     private int maxConsiderSearch = 3;
     [SerializeField]
-    private float targetWanderDistance = 1.0f;
-    [SerializeField]
     private float minApproachDistance = 5.0f;
-    [SerializeField]
-    private float maxApproachTime = 60.0f;
+    //[SerializeField]
+    //private float maxApproachTime = 60.0f;
     [SerializeField]
     private float wanderSpeed = 3.0f;
     [SerializeField]
+    private float approachSpeed = 3.0f;
+    [SerializeField]
     private float pursueSpeed = 5.0f;
     [SerializeField]
+
     private float maxSightDistance = 1000.0f;
 
 
 	 public float LOSE_DISTANCE = 1.5f;
+	 [SerializeField]
+	 private float attackRange = 1.5f;
+
+
     
     private delegate void StateBehavior();
     private StateBehavior tutorial;
@@ -74,8 +80,6 @@ public class BeastController : MonoBehaviour
         pursue = new StateBehavior(StatePursueBehavior);
         search = new StateBehavior(StateSearchBehavior);
         currentBehavior = tutorial;
-
-        agent.speed = 2.0f; //!
     }
 
     // Update is called once per frame
@@ -112,12 +116,10 @@ public class BeastController : MonoBehaviour
 
             canSeePlayer = true;
         }
-        else if(canSeePlayer) //?
+        else
         {
             canSeePlayer = false;
 
-		
-            
         }
 
         //check if beast position is in phone camera view port
@@ -192,7 +194,7 @@ public class BeastController : MonoBehaviour
 
             case BeastAIState.Pursue:
                 // pursue --> search
-                if(!canSeePlayer || player.isHiding)
+                if(!canSeePlayer)
                 {
                     lastKnownPlayerPos = player.gameObject.transform.position;
                     CurrentState = BeastAIState.Search;
@@ -260,7 +262,7 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            //! agent.speed = wanderSpeed;
+            agent.speed = wanderSpeed;
             CurrentTarget = GetRandomRoomNode();
             agent.SetDestination(CurrentTarget.transform.position);
 
@@ -286,7 +288,7 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            //! agent.speed = wanderSpeed;
+            agent.speed = approachSpeed;
             CurrentTarget = player.gameObject;
             agent.SetDestination(player.transform.position);
 
@@ -305,7 +307,7 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            //! agent.speed = pursueSpeed;
+            agent.speed = pursueSpeed;
             CurrentTarget = player.gameObject;
             agent.SetDestination(player.transform.position);
 
@@ -318,10 +320,14 @@ public class BeastController : MonoBehaviour
 			Debug.Log("Player lost!");
 			//
         }
-
         else if(!agent.pathPending)
         {
             agent.SetDestination(player.transform.position);
+        }
+
+        if(playerDistance < attackRange)
+        {
+            player.Damage();
         }
     }
 
@@ -330,7 +336,7 @@ public class BeastController : MonoBehaviour
         if(stateChanged)
         {
             stateChanged = false;
-            //! agent.speed = wanderSpeed;
+            agent.speed = wanderSpeed;
             CurrentTarget = player.gameObject;
             numRoomSearched = 0;
             agent.SetDestination(lastKnownPlayerPos);

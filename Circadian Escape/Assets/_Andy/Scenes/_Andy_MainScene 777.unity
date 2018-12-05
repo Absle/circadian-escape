@@ -3207,12 +3207,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxConsiderSearch: 3
-  targetWanderDistance: 1
   minApproachDistance: 5
-  maxApproachTime: 60
   wanderSpeed: 3
+  approachSpeed: 3
   pursueSpeed: 5
   maxSightDistance: 1000
+  attackRange: 1.5
 --- !u!4 &646534381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728868450674868, guid: e0a5880773830924f98028369c4c4ce7,

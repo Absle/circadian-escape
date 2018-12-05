@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float maxInteractDist = 2.0f;
 
+    private T12_GameManager manager;
     private PlayerInventory inv;
     public List<int> KeyRing { get { return inv.KeyRing; } }
     public bool InTutorial { get; private set; }
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        manager = FindObjectOfType<T12_GameManager>();
+
         //?
         //InTutorial = true;
         InTutorial = false;
@@ -78,6 +81,15 @@ public class PlayerController : MonoBehaviour
 
         //display message
         actionPrompt.text = message;
+    }
+
+    /*
+     * Called by Beast when damaging the Player
+     */
+    public void Damage()
+    {
+        //currently loses immediately
+        manager.PlayerLose();
     }
 
     //nested private class to handle inventory and items
