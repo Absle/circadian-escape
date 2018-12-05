@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using StdT12;
 using StdT12.Enums;
+using UnityEngine.SceneManagement;
 
 public class BeastController : MonoBehaviour
 {
@@ -38,6 +39,9 @@ public class BeastController : MonoBehaviour
     private float pursueSpeed = 5.0f;
     [SerializeField]
     private float maxSightDistance = 1000.0f;
+
+
+	 public float LOSE_DISTANCE = 1.5f;
     
     private delegate void StateBehavior();
     private StateBehavior tutorial;
@@ -77,6 +81,7 @@ public class BeastController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+
         if(firstUpdate)
         {
             firstUpdate = false;
@@ -85,6 +90,11 @@ public class BeastController : MonoBehaviour
             rooms = manager.RoomGraph;
         }
 
+		if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
+                {
+                   // SceneManager.LoadScene(2);
+                    Debug.Log("YOU DIED!!!");
+               }
         //first, determine state flags
         //check if player is in line of sight
         RaycastHit hit;
@@ -98,6 +108,7 @@ public class BeastController : MonoBehaviour
                 Debug.Log("Player spotted!");
             }
             */
+			
 
             canSeePlayer = true;
         }
@@ -105,11 +116,16 @@ public class BeastController : MonoBehaviour
         {
             canSeePlayer = false;
 
+			//if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
+             //   {
+            //        SceneManager.LoadScene(2);
+            //        Debug.Log("YOU DIED!!!");
+             //   }
             //?
-            /*
-            Debug.Log("Player lost!");
-            Debug.Log(hit.collider.gameObject.name);
-            */
+            
+          //  Debug.Log("Player lost!");
+           // Debug.Log(hit.collider.gameObject.name);
+            
         }
 
         //check if beast position is in phone camera view port
@@ -303,6 +319,12 @@ public class BeastController : MonoBehaviour
 
             //?
             //Debug.Log("Running Pursue Behavior...");
+
+
+			//
+			if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
+			Debug.Log("Player lost!");
+			//
         }
 
         else if(!agent.pathPending)

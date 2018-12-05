@@ -22,7 +22,11 @@ public class StartLoadUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+		//if(getDownKey.k)
+		if(Input.GetButton("Submit"))
+		{
+			 SceneManager.LoadScene(1);
+		}
     }
 
     private void ToUpgrade()

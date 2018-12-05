@@ -93,7 +93,7 @@ public class Patrol : MonoBehaviour {
                 //? TODO: get a real lose state, this is definitely not it
                 if(Vector3.Distance(player.transform.position, gameObject.transform.position) < LOSE_DISTANCE)
                 {
-                    SceneManager.LoadScene(2);
+                  //  SceneManager.LoadScene(2);
                     Debug.Log("YOU DIED!!!");
                 }
 			} else if (flag) {
