@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StdT12.Interfaces;
+using UnityEngine.SceneManagement;
 
 public class T12_GameManager : MonoBehaviour
 {
@@ -50,5 +52,11 @@ public class T12_GameManager : MonoBehaviour
             }
             RoomGraph[index - 1] = node;
         }
+    }
+
+    public void PlayerLose()
+    {
+        Debug.Log("YOU LOSE!!!");
+        SceneManager.LoadScene(2);
     }
 }

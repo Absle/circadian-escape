@@ -299,10 +299,14 @@ public class BeastController : MonoBehaviour
             //?
             //Debug.Log("Running Pursue Behavior...");
         }
-
         else if(!agent.pathPending)
         {
             agent.SetDestination(player.transform.position);
+        }
+
+        if(playerDistance < attackRange)
+        {
+            player.Damage();
         }
     }
 
